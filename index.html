@@ -20,7 +20,6 @@ body{
     color:white;
 }
 
-
 .container{
     width:100%;
     max-width:420px;
@@ -31,17 +30,10 @@ body{
     align-items:center;
 }
 
-
 img{
     width:190px;
     border-radius:15px;
     margin-bottom:15px;
-}
-
-h1{
-    font-family:'Great Vibes',cursive;
-    font-size:2.2rem;
-    margin-bottom:10px;
 }
 
 .message{
@@ -121,12 +113,27 @@ button{
 
 </div>
 
+<!-- Ed Sheeran Music -->
+<audio id="bgMusic" loop>
+    <source src="Ed_Sheeran_-_Perfect(128k).mp3" type="audio/mpeg">
+</audio>
+
 <script>
 let yesSize = 1;
 const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
 const main = document.getElementById("main");
+const music = document.getElementById("bgMusic");
 
+/* Save original content (so back doesn't reload page) */
+const originalContent = main.innerHTML;
+
+/* Start music on first interaction (browser safe) */
+document.addEventListener("click", function () {
+    music.play();
+}, { once: true });
+
+/* NO button makes YES grow */
 noBtn.onclick = function(){
     yesSize += 0.4;
     yesBtn.style.transform = "scale("+yesSize+")";
@@ -137,16 +144,23 @@ noBtn.onclick = function(){
     }
 };
 
+/* YES button celebration */
 yesBtn.onclick = function(){
     main.innerHTML = `
         <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTB5Z2ZrMzZ4dW1lYXp5MTBkOWJvdm52YjRqeWQ5cjRrZW1wbm5oYiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/c4ijLLteGHcas/giphy.gif">
         <div class="success">
             You just made me the happiest person alive ❤️✨
         </div>
-        <button class="backBtn" onclick="location.reload()">Go Back 💕</button>
+        <button class="backBtn" onclick="goBack()">Go Back 💕</button>
     `;
 };
 
+/* Go back without stopping music */
+function goBack(){
+    main.innerHTML = originalContent;
+    yesSize = 1;
+}
+ 
 /* floating hearts */
 function createHeart(){
     const heart = document.createElement("div");
@@ -158,18 +172,6 @@ function createHeart(){
     setTimeout(()=>heart.remove(),6000);
 }
 setInterval(createHeart,500);
-</script>
-
-<audio id="bgMusic" loop>
-    <source src="Ed_Sheeran_-_Perfect(128k).mp3" type="audio/mpeg">
-</audio>
-
-<script>
-    const music = document.getElementById("bgMusic");
-
-    document.addEventListener("click", function () {
-        music.play();
-    }, { once: true });
 </script>
 
 </body>
